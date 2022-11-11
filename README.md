@@ -29,7 +29,7 @@ Azure Custom Vision, Yolov7をそれぞれ使用しトレーニングを行う
 - Memory: 32GB
 - GPU: NVIDIA RTX3070 (8GB)
 - CUDA: 11.6
-- PyTorch: 1.12.0+cu116
+- PyTorch: 1.12.0+cu116 <br>
 ------------------------------------ <br>
 
 ### 1, セットアップ

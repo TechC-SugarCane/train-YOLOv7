@@ -141,7 +141,7 @@ scripts/
 # yaml file
 coco.yaml
 
-runs/
-
 traced_model.pt
 checkpoints/
+
+weights/

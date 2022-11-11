@@ -12,4 +12,8 @@ Azure Custom Vision, Yolov7をそれぞれ使用しトレーニングを行う
 
 - Yolo: Yoloを使ったモデルのトレーニングおよびモデルの検証を行うためのブランチ
 
+### YoLov7
 
+上記のコードは(リファレンス)[https://github.com/WongKinYiu/yolov7]のコードを一部変更してローカル環境で実装しています。
+
+推論結果は(こちら)[./runs/detect/exp-yolov7-e6-sugarcane-valid22]

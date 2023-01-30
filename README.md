@@ -16,7 +16,7 @@ Azure Custom Vision, Yolov7をそれぞれ使用しトレーニングを行う
 
 上記のコードは[公式サイト](https://github.com/WongKinYiu/yolov7)のコードを一部変更してローカル環境で実装しています。
 
-推論結果は(こちら)[./runs/detect/exp-yolov7-e6-sugarcane-valid22]
+推論結果は[こちら](./runs/detect/exp-yolov7-e6-sugarcane-valid22)
 
 ## モデルの検証をローカルで行う方法
 

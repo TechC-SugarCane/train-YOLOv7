@@ -21,6 +21,9 @@ from scipy.signal import butter, filtfilt
 from utils.general import xywh2xyxy, xyxy2xywh
 from utils.metrics import fitness
 
+from utils.calculate_center import calculate_center
+# from utils.nozzle import nozzle?
+
 # Settings
 matplotlib.rc('font', **{'size': 11})
 matplotlib.use('Agg')  # for writing to files only
@@ -59,6 +62,19 @@ def plot_one_box(x, img, color=None, label=None, line_thickness=3):
     tl = line_thickness or round(0.002 * (img.shape[0] + img.shape[1]) / 2) + 1  # line/font thickness
     color = color or [random.randint(0, 255) for _ in range(3)]
     c1, c2 = (int(x[0]), int(x[1])), (int(x[2]), int(x[3]))
+
+    #debug
+    print(img.shape)
+
+    if label == "weed" or label == "root":
+        center_x, center_y = calculate_center(c1, c2)
+
+        print(center_x, center_y)
+
+        cv2.rectangle(img, (int(center_x), int(center_y)), (int(center_x) + 3, int(center_y) + 3), (20, 20, 20), -1)
+        # if int(img.shape[1] * 0.5) <= center_x and int(img.shape[0] * 0.5) <= center_y <= 840:
+            # nozzle()
+
     cv2.rectangle(img, c1, c2, color, thickness=tl, lineType=cv2.LINE_AA)
     if label:
         tf = max(tl - 1, 1)  # font thickness

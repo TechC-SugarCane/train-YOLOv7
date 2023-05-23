@@ -43,7 +43,7 @@ colabを起動したらYOLOv7をクローンしてyolov7ディレクトリに移
 ## 3: データセットのダウンロード
 
 - Roboflowに移動し`Export Dataset`を選択する
-- デフォルトで`YOLO v7 PyTorch`, `shwo download code`になっているので`continue`を押す
+- デフォルトで`YOLO v7 PyTorch`, `show download code`になっているので`continue`を押す
 - でできたコードをすべてコピーしてcolabに張り付けて実行する
 - `data.yaml`ファイルが中にあるので`data`ディレクトリに移動させておく
 
@@ -53,7 +53,7 @@ colabを起動したらYOLOv7をクローンしてyolov7ディレクトリに移
 
 `1387`行目, `1540`行目にあるコードを以下のように変更する
 
-`matching_matrix = torch.zeros_like(cost)` \rightarrow `matching_matrix = torch.zeros_like(cost, device="cpu")`
+`matching_matrix = torch.zeros_like(cost)` $\rightarrow$ `matching_matrix = torch.zeros_like(cost, device="cpu")`
 
 ## 5: 学習させる
 

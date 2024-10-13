@@ -22,13 +22,11 @@ Azure Custom Vision, Yolov7をそれぞれ使用しトレーニングを行う
 
 ### 0, 環境
 
------------------------------------- 
-- os: windows 10
-- Memory: 32GB
-- GPU: NVIDIA RTX3070 (8GB)
-- CUDA: 11.6
-- PyTorch: 1.12.0+cu116
-------------------------------------
+---
+- Python: 3.10.11
+- CUDA: 11.8
+- PyTorch: 1.12.0+cu118
+---
 
 ### 1, セットアップ
 
@@ -42,12 +40,29 @@ cd ObjectDetection
 code .
 ```
 
-以下のリンクにアクセスをしてデータセットをダウンロードし、`./ObjectDetection`の中に解凍します<br>
-[dataset.zip](https://sugarcane.blob.core.windows.net/backup/dataset.zip)
-
-事前学習済みモデルを以下のリンクからダウンロードします。新しく`checkpoints`のフォルダーを作成して、その中に格納するようにします。<br>
+事前学習済みモデル(`yolov7-d6`)を以下のリンクからダウンロードします。新しく`checkpoints`のフォルダーを作成して、その中に格納するようにします。<br>
 [事前学習済みモデルはこちら](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt)
 
+学習に使用するデータセットはRoboflowというサービスを使用して作成しています。
+
+学習や評価に使用するデータセットは、
+
+- [サトウキビ](https://universe.roboflow.com/hoku/sugarcane-3vhxz/dataset/12)
+- [パイナップル](https://universe.roboflow.com/hoku/pineapple-thsih/dataset/7)
+
+にありますが、手動でダウンロードするのは面倒なので`huggingface`にdatasetsをまとめてあります。
+
+下記コマンドを実行して、datasetsをダウンロードしてください。
+
+```bash
+# Make sure you have git-lfs installed (https://git-lfs.com)
+git lfs install
+
+git clone https://huggingface.co/datasets/TechC-SugarCane/yolov7-datasets
+
+# git push時に発生するエラーを無効化
+git config lfs.https://github.com/TechC-SugarCane/ObjectDetection.git/info/lfs.locksverify false
+```
 
 `.venv`のインストールをしてモジュールをインストールします。<br>
 
@@ -73,7 +88,7 @@ torch.cuda.is_available()
 その際仮想環境にインストールしたtorchは一度アインストールします。
 
 ``` powershell
-pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
+pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
 ```
 
 インストールしたらもう一度`CUDA`が使えるか確認します。
@@ -84,13 +99,24 @@ pip install torch torchvision torchaudio --extra-index-url https://download.pyto
 `--epochs`で学習を行う回数を指定できます。
 学習の回数によってかかる時間は変わってきます。
 
-```powershell
-python train_aux.py --workers 2 --batch-size 8 \
-  --data data/sugarcane.yaml \
-  --cfg cfg/training/yolov7-e6.yaml \
-  --weights 'checkpoints/yolov7-e6.pt' \
-  --name yolov7-e6-candy \
-  --hyp data/hyp.scratch.p6.yaml \
+```shell
+# sugarcane
+python train_aux.py --workers 8 --batch-size 16 \
+  --data yolov7-datasets/sugarcane/data.yaml
+  --cfg cfg/training/yolov7-d6.yaml \
+  --weights checkpoints/yolov7-d6.pt \
+  --name yolov7-d6-sugarcane \
+  --hyp data/hyp.scratch.sugarcane.yaml \
+  --epochs 300 \
+  --device 0
+
+# pineapple
+python train_aux.py --workers 8 --batch-size 16 \
+  --data yolov7-datasets/pineapple/data.yaml
+  --cfg cfg/training/yolov7-d6.yaml \
+  --weights checkpoints/yolov7-d6.pt \
+  --name yolov7-d6-pineapple \
+  --hyp data/hyp.scratch.pineapple.yaml \
   --epochs 300 \
   --device 0
 ```
@@ -101,8 +127,8 @@ python train_aux.py --workers 2 --batch-size 8 \
 結果は`./runs/detect/{自分が指定したフォルダー名}`の中に格納されています
 
 ```powershell
-python detect.py --weights runs/train/yolov7-e6-candy/weights/best.pt \
+python detect.py --weights runs/train/yolov7-d6-sugarcane/weights/best.pt \
   --conf 0.25 --img-size 640 \
-  --source dataset/candy/valid/images \
-  --name exp-yolov7-e6-candy-valid
+  --source yolov7-datasets/sugarcane/test/images \
+  --name yolov7-d6-sugarcane-test
 ```

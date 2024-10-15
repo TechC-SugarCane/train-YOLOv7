@@ -101,6 +101,8 @@ pip install torch torchvision torchaudio --extra-index-url https://download.pyto
 
 ```shell
 # sugarcane
+# タスク的にはp5のtrain.pyを使うべきですが、
+# train.pyだとエラーが出るので、train_aux.pyを使います
 python train_aux.py --workers 8 --batch-size 16 \
   --data yolov7-datasets/sugarcane/data.yaml
   --cfg cfg/training/yolov7-d6.yaml \

@@ -91,7 +91,7 @@ pip install torch torchvision torchaudio --extra-index-url https://download.pyto
 # タスク的にはp5のtrain.pyを使うべきですが、
 # train.pyだとエラーが出るので、train_aux.pyを使います
 python train_aux.py --workers 8 --batch-size 16 \
-  --data ../manage-dataset/datasets/sugarcane/data.yaml
+  --data ../manage-dataset/datasets/sugarcane/data.yaml \
   --cfg cfg/training/yolov7-d6.yaml \
   --weights checkpoints/yolov7-d6.pt \
   --name yolov7-d6-sugarcane \
@@ -101,7 +101,7 @@ python train_aux.py --workers 8 --batch-size 16 \
 
 # pineapple
 python train_aux.py --workers 8 --batch-size 16 \
-  --data ../manage-dataset/pineapple/data.yaml
+  --data ../manage-dataset/pineapple/data.yaml \
   --cfg cfg/training/yolov7-d6.yaml \
   --weights checkpoints/yolov7-d6.pt \
   --name yolov7-d6-pineapple \

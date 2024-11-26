@@ -115,9 +115,9 @@ python train_aux.py --workers 8 --batch-size 16 \
 学習が正常に終了したら、以下のコマンドを実装し推論を行います。<br>
 結果は`./runs/detect/{自分が指定したフォルダー名}`の中に格納されています
 
-```powershell
+```sh
 python detect.py --weights runs/train/yolov7-d6-sugarcane/weights/best.pt \
   --conf 0.25 --img-size 640 \
-  --source datasets/sugarcane/test/images \
+  --source ../manage-dataset/datasets/sugarcane/test/images \
   --name yolov7-d6-sugarcane-test
 ```

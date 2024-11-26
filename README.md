@@ -45,23 +45,19 @@ code .
 
 学習に使用するデータセットはRoboflowというサービスを使用して作成しています。
 
-学習や評価に使用するデータセットは、
-
-- [サトウキビ](https://universe.roboflow.com/hoku/sugarcane-3vhxz/dataset/12)
-- [パイナップル](https://universe.roboflow.com/hoku/pineapple-thsih/dataset/7)
-
-にありますが、手動でダウンロードするのは面倒なので`huggingface`にdatasetsをまとめてあります。
-
-下記コマンドを実行して、datasetsをダウンロードしてください。
+学習や評価に使用するデータセットは、[Roboflow](https://universe.roboflow.com/techcsugarcane/)にありますが、手動でダウンロードするのは面倒なので下記コマンドを実行してdatasetsをダウンロードしてください。
 
 ```bash
-# Make sure you have git-lfs installed (https://git-lfs.com)
-git lfs install
+# Sugarcane Version 4
+$sugarcane_url="https://app.roboflow.com/ds/T2zV0t9XVG?key=VldKEnvBjY"
+# Pineapple Version 2
+$pineapple_url="https://app.roboflow.com/ds/hfpq9ajFvM?key=5Rq1mFJi7w"
 
-git clone https://huggingface.co/datasets/TechC-SugarCane/yolov7-datasets
+# mac向け
+bash download_dataset.sh $sugarcane_url $pineapple_url
 
-# git push時に発生するエラーを無効化
-git config lfs.https://github.com/TechC-SugarCane/ObjectDetection.git/info/lfs.locksverify false
+# windows向け
+./download_dataset.ps1 -SugarcaneUrl $sugarcane_url -PineappleUrl $pineapple_url
 ```
 
 `.venv`のインストールをしてモジュールをインストールします。<br>
@@ -104,7 +100,7 @@ pip install torch torchvision torchaudio --extra-index-url https://download.pyto
 # タスク的にはp5のtrain.pyを使うべきですが、
 # train.pyだとエラーが出るので、train_aux.pyを使います
 python train_aux.py --workers 8 --batch-size 16 \
-  --data yolov7-datasets/sugarcane/data.yaml
+  --data datasets/sugarcane/data.yaml
   --cfg cfg/training/yolov7-d6.yaml \
   --weights checkpoints/yolov7-d6.pt \
   --name yolov7-d6-sugarcane \
@@ -114,7 +110,7 @@ python train_aux.py --workers 8 --batch-size 16 \
 
 # pineapple
 python train_aux.py --workers 8 --batch-size 16 \
-  --data yolov7-datasets/pineapple/data.yaml
+  --data datasets/pineapple/data.yaml
   --cfg cfg/training/yolov7-d6.yaml \
   --weights checkpoints/yolov7-d6.pt \
   --name yolov7-d6-pineapple \
@@ -131,6 +127,6 @@ python train_aux.py --workers 8 --batch-size 16 \
 ```powershell
 python detect.py --weights runs/train/yolov7-d6-sugarcane/weights/best.pt \
   --conf 0.25 --img-size 640 \
-  --source yolov7-datasets/sugarcane/test/images \
+  --source datasets/sugarcane/test/images \
   --name yolov7-d6-sugarcane-test
 ```

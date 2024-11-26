@@ -43,21 +43,12 @@ code .
 事前学習済みモデル(`yolov7-d6`)を以下のリンクからダウンロードします。新しく`checkpoints`のフォルダーを作成して、その中に格納するようにします。<br>
 [事前学習済みモデルはこちら](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt)
 
-学習に使用するデータセットはRoboflowというサービスを使用して作成しています。
+データセットは 一階層上に[manage-datasetリポジトリ](https://github.com/TechC-SugarCane/manage-dataset)をcloneし、[README](https://github.com/TechC-SugarCane/manage-dataset/blob/main/README.md)に従ってダウンロードしてください。
 
-学習や評価に使用するデータセットは、[Roboflow](https://universe.roboflow.com/techcsugarcane/)にありますが、手動でダウンロードするのは面倒なので下記コマンドを実行してdatasetsをダウンロードしてください。
-
-```bash
-# Sugarcane Version 4
-$sugarcane_url="https://app.roboflow.com/ds/T2zV0t9XVG?key=VldKEnvBjY"
-# Pineapple Version 2
-$pineapple_url="https://app.roboflow.com/ds/hfpq9ajFvM?key=5Rq1mFJi7w"
-
-# mac向け
-bash download_dataset.sh $sugarcane_url $pineapple_url
-
-# windows向け
-./download_dataset.ps1 -SugarcaneUrl $sugarcane_url -PineappleUrl $pineapple_url
+```shell
+# clone済みの人はスキップ
+cd ..
+git clone git@github.com:TechC-SugarCane/manage-dataset.git
 ```
 
 `.venv`のインストールをしてモジュールをインストールします。<br>
@@ -100,7 +91,7 @@ pip install torch torchvision torchaudio --extra-index-url https://download.pyto
 # タスク的にはp5のtrain.pyを使うべきですが、
 # train.pyだとエラーが出るので、train_aux.pyを使います
 python train_aux.py --workers 8 --batch-size 16 \
-  --data datasets/sugarcane/data.yaml
+  --data ../manage-dataset/datasets/sugarcane/data.yaml
   --cfg cfg/training/yolov7-d6.yaml \
   --weights checkpoints/yolov7-d6.pt \
   --name yolov7-d6-sugarcane \
@@ -110,7 +101,7 @@ python train_aux.py --workers 8 --batch-size 16 \
 
 # pineapple
 python train_aux.py --workers 8 --batch-size 16 \
-  --data datasets/pineapple/data.yaml
+  --data ../manage-dataset/pineapple/data.yaml
   --cfg cfg/training/yolov7-d6.yaml \
   --weights checkpoints/yolov7-d6.pt \
   --name yolov7-d6-pineapple \

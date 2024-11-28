@@ -42,8 +42,6 @@ coco/
 coco128/
 VOC/
 
-yolov7-datasets/
-
 coco2017labels-segments.zip
 test2017.zip
 train2017.zip

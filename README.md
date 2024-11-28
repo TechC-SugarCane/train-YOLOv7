@@ -43,25 +43,12 @@ code .
 事前学習済みモデル(`yolov7-d6`)を以下のリンクからダウンロードします。新しく`checkpoints`のフォルダーを作成して、その中に格納するようにします。<br>
 [事前学習済みモデルはこちら](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt)
 
-学習に使用するデータセットはRoboflowというサービスを使用して作成しています。
+データセットは 一階層上に[manage-datasetリポジトリ](https://github.com/TechC-SugarCane/manage-dataset)をcloneし、[README](https://github.com/TechC-SugarCane/manage-dataset/blob/main/README.md)に従ってダウンロードしてください。
 
-学習や評価に使用するデータセットは、
-
-- [サトウキビ](https://universe.roboflow.com/hoku/sugarcane-3vhxz/dataset/12)
-- [パイナップル](https://universe.roboflow.com/hoku/pineapple-thsih/dataset/7)
-
-にありますが、手動でダウンロードするのは面倒なので`huggingface`にdatasetsをまとめてあります。
-
-下記コマンドを実行して、datasetsをダウンロードしてください。
-
-```bash
-# Make sure you have git-lfs installed (https://git-lfs.com)
-git lfs install
-
-git clone https://huggingface.co/datasets/TechC-SugarCane/yolov7-datasets
-
-# git push時に発生するエラーを無効化
-git config lfs.https://github.com/TechC-SugarCane/ObjectDetection.git/info/lfs.locksverify false
+```shell
+# clone済みの人はスキップ
+cd ..
+git clone git@github.com:TechC-SugarCane/manage-dataset.git
 ```
 
 `.venv`のインストールをしてモジュールをインストールします。<br>
@@ -104,7 +91,7 @@ pip install torch torchvision torchaudio --extra-index-url https://download.pyto
 # タスク的にはp5のtrain.pyを使うべきですが、
 # train.pyだとエラーが出るので、train_aux.pyを使います
 python train_aux.py --workers 8 --batch-size 16 \
-  --data yolov7-datasets/sugarcane/data.yaml
+  --data ../manage-dataset/datasets/sugarcane/data.yaml \
   --cfg cfg/training/yolov7-d6.yaml \
   --weights checkpoints/yolov7-d6.pt \
   --name yolov7-d6-sugarcane \
@@ -114,7 +101,7 @@ python train_aux.py --workers 8 --batch-size 16 \
 
 # pineapple
 python train_aux.py --workers 8 --batch-size 16 \
-  --data yolov7-datasets/pineapple/data.yaml
+  --data ../manage-dataset/pineapple/data.yaml \
   --cfg cfg/training/yolov7-d6.yaml \
   --weights checkpoints/yolov7-d6.pt \
   --name yolov7-d6-pineapple \
@@ -128,9 +115,9 @@ python train_aux.py --workers 8 --batch-size 16 \
 学習が正常に終了したら、以下のコマンドを実装し推論を行います。<br>
 結果は`./runs/detect/{自分が指定したフォルダー名}`の中に格納されています
 
-```powershell
+```sh
 python detect.py --weights runs/train/yolov7-d6-sugarcane/weights/best.pt \
   --conf 0.25 --img-size 640 \
-  --source yolov7-datasets/sugarcane/test/images \
+  --source ../manage-dataset/datasets/sugarcane/test/images \
   --name yolov7-d6-sugarcane-test
 ```

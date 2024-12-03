@@ -1,20 +1,10 @@
 # ObjectDetection
 
-オブジェクトディテクション用のモデルのトレーニングおよび検証を行うためのリポジトリ
-
-Azure Custom Vision, Yolov7をそれぞれ使用しトレーニングを行う
-
-### Branch
-
-- main: メインのリポジトリモデルの比較を行い性能が良いほうをこのブランチの中に置く。
-
-- Yolo: Yoloを使ったモデルのトレーニングおよびモデルの検証を行うためのブランチ
+YOLOv7のトレーニングおよび検証を行うためのリポジトリ
 
 ### 推論結果
 
 上記のコードは[公式サイト](https://github.com/WongKinYiu/yolov7)のコードを一部変更してローカル環境で実装しています。
-
-推論結果は[こちら](./runs/detect/exp-yolov7-e6-sugarcane-valid22)
 
 ## モデルの検証をローカルで行う方法
 
@@ -32,7 +22,7 @@ Azure Custom Vision, Yolov7をそれぞれ使用しトレーニングを行う
 
 ターミナルを開きこのリポジトリをクローンしてエディターを開きます。
 
-``` git
+```sh
 git clone https://github.com/TechC-SugarCane/ObjectDetection
 
 cd ObjectDetection
@@ -43,9 +33,9 @@ code .
 事前学習済みモデル(`yolov7-d6`)を以下のリンクからダウンロードします。新しく`checkpoints`のフォルダーを作成して、その中に格納するようにします。<br>
 [事前学習済みモデルはこちら](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt)
 
-データセットは 一階層上に[manage-datasetリポジトリ](https://github.com/TechC-SugarCane/manage-dataset)をcloneし、[README](https://github.com/TechC-SugarCane/manage-dataset/blob/main/README.md)に従ってダウンロードしてください。
+データセットは 一階層上に[manage-datasetリポジトリ](https://github.com/TechC-SugarCane/manage-dataset)をcloneし、[manage-dataset/README](https://github.com/TechC-SugarCane/manage-dataset/blob/main/README.md)に従ってダウンロードしてください。
 
-```shell
+```sh
 # clone済みの人はスキップ
 cd ..
 git clone git@github.com:TechC-SugarCane/manage-dataset.git
@@ -53,7 +43,7 @@ git clone git@github.com:TechC-SugarCane/manage-dataset.git
 
 `.venv`のインストールをしてモジュールをインストールします。<br>
 
-```powershell
+```sh
 python -m venv .venv
 
 .venv/Scripts/activate
@@ -64,17 +54,16 @@ pip install -r requirements.txt
 ```
 
 `CUDA`が使えるのかを確認します。
-``` python
+```py
 import torch
 torch.cuda.is_available()
-
 ```
 
 `False`の結果が返ってきた場合、GPUドライバがインストールされているか確認します。<br>
 確認できた、既にインストールがされていた場合、ターミナルで以下のコマンドを入力します。
 その際仮想環境にインストールしたtorchは一度アインストールします。
 
-``` powershell
+```sh
 pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
 ```
 
@@ -86,7 +75,7 @@ pip install torch torchvision torchaudio --extra-index-url https://download.pyto
 `--epochs`で学習を行う回数を指定できます。
 学習の回数によってかかる時間は変わってきます。
 
-```shell
+```sh
 # sugarcane
 # タスク的にはp5のtrain.pyを使うべきですが、
 # train.pyだとエラーが出るので、train_aux.pyを使います

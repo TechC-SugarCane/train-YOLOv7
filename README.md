@@ -82,22 +82,46 @@ git clone git@github.com:TechC-SugarCane/manage-dataset.git
 python train_aux.py --workers 8 --batch-size 8 \
   --data ../manage-dataset/datasets/sugarcane/data.yaml \
   --cfg cfg/training/yolov7-d6.yaml \
-  --weights checkpoints/yolov7-d6.pt \
+  --weights weights/yolov7-d6.pt \
   --name yolov7-d6-sugarcane \
   --hyp data/hyp.scratch.sugarcane.yaml \
-  --epochs 300 \
+  --epochs 250 \
   --device 0
 
 # pineapple
 python train_aux.py --workers 8 --batch-size 8 \
   --data ../manage-dataset/pineapple/data.yaml \
   --cfg cfg/training/yolov7-d6.yaml \
-  --weights checkpoints/yolov7-d6.pt \
+  --weights weights/yolov7-d6.pt \
   --name yolov7-d6-pineapple \
   --hyp data/hyp.scratch.pineapple.yaml \
-  --epochs 300 \
+  --epochs 250 \
   --device 0
 ```
+
+### [補足] yolov7-tinyを学習させる場合
+
+```sh
+python train.py --workers 8 --batch-size 8 \
+  --data ../manage-dataset/datasets/sugarcane/data.yaml \
+  --cfg cfg/training/yolov7-tiny.yaml \
+  --weights weights/yolov7-tiny.pt \
+  --name yolov7-tiny-sugarcane \
+  --hyp data/hyp.scratch.sugarcane.yaml \
+  --epochs 250 \
+  --device 0
+
+# pineapple
+python train.py --workers 8 --batch-size 8 \
+  --data ../manage-dataset/pineapple/data.yaml \
+  --cfg cfg/training/yolov7-tiny.yaml \
+  --weights weights/yolov7-tiny.pt \
+  --name yolov7-tiny-pineapple \
+  --hyp data/hyp.scratch.pineapple.yaml \
+  --epochs 250 \
+  --device 0
+```
+
 
 ## コントリビューター向けガイドライン
 

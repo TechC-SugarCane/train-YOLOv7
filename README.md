@@ -1,75 +1,75 @@
-# ObjectDetection
+# YOLOv9のファインチューニング
 
-YOLOv7のトレーニングおよび検証を行うためのリポジトリ
+公式のリポジトリからフォークして、独自のデータセットでファインチューニングを行うためのリポジトリです。
 
-### 推論結果
+フォーク元: [WongKinYiu/yolov7](https://github.com/WongKinYiu/yolov7)
 
-上記のコードは[公式サイト](https://github.com/WongKinYiu/yolov7)のコードを一部変更してローカル環境で実装しています。
+## 環境
 
-## モデルの検証をローカルで行う方法
-
-ここから先はモデルのトレーニング・テストを自分の環境でやってみたい方向けです。
-
-### 0, 環境
-
----
 - Python: 3.10.11
 - CUDA: 11.8
-- PyTorch: 1.12.0+cu118
----
 
-### 1, セットアップ
+## Setup
 
-ターミナルを開きこのリポジトリをクローンしてエディターを開きます。
+### 1. リポジトリをクローン
 
 ```sh
-git clone https://github.com/TechC-SugarCane/ObjectDetection
+git clone git@github.com:TechC-SugarCane/train-YOLOv7.git
 
-cd ObjectDetection
-
-code .
+cd train-YOLOv7
 ```
 
-事前学習済みモデル(`yolov7-d6`)を以下のリンクからダウンロードします。新しく`checkpoints`のフォルダーを作成して、その中に格納するようにします。<br>
-[事前学習済みモデルはこちら](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt)
+### 2. Pythonの環境構築
+
+`pyenv`を使うので、パソコンに入っていない人は[CONTRIBUTING.md](https://github.com/TechC-SugarCane/.github/blob/main/CONTRIBUTING.md#pyenv-pyenv-win-%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB)を参考にしながらインストールしてください。
+
+```bash
+pyenv install
+```
+
+### 3. 仮想環境を作成
+
+```bash
+python -m venv .venv
+```
+
+### 4. 仮想環境を有効化
+
+```bash
+# mac
+source .venv/bin/activate
+
+# windows
+.venv\Scripts\activate
+```
+
+※ 環境から抜ける場合は、`deactivate`コマンドを実行してください。
+
+### 5. 依存パッケージをインストール
+
+```bash
+# CPUで推論を行う場合
+pip install -r requirements-cpu.txt
+
+# GPUで推論を行う場合
+pip install -r requirements-gpu.txt
+```
+
+## Training
+
+事前学習済みモデルとして`yolov7-d6.pt`を使用するので、[こちら](https://github.com/WongKinYiu/yolov7/releases/download/v0.1/yolov7-d6.pt)からダウンロードして`weights`ディレクトリに配置してください。
+
+### 1. データセットのダウンロード
 
 データセットは 一階層上に[manage-datasetリポジトリ](https://github.com/TechC-SugarCane/manage-dataset)をcloneし、[manage-dataset/README](https://github.com/TechC-SugarCane/manage-dataset/blob/main/README.md)に従ってダウンロードしてください。
 
-```sh
+```shell
 # clone済みの人はスキップ
 cd ..
 git clone git@github.com:TechC-SugarCane/manage-dataset.git
 ```
 
-`.venv`のインストールをしてモジュールをインストールします。<br>
-
-```sh
-python -m venv .venv
-
-.venv/Scripts/activate
-
-python -m pip install --upgrade pip
-
-pip install -r requirements.txt
-```
-
-`CUDA`が使えるのかを確認します。
-```py
-import torch
-torch.cuda.is_available()
-```
-
-`False`の結果が返ってきた場合、GPUドライバがインストールされているか確認します。<br>
-確認できた、既にインストールがされていた場合、ターミナルで以下のコマンドを入力します。
-その際仮想環境にインストールしたtorchは一度アインストールします。
-
-```sh
-pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu118
-```
-
-インストールしたらもう一度`CUDA`が使えるか確認します。
-
-### 2 学習の実行
+### 2. 学習の実行
 
 ターミナルで以下のコマンドを入力し学習を開始します。<br>
 `--epochs`で学習を行う回数を指定できます。
@@ -79,34 +79,52 @@ pip install torch torchvision torchaudio --extra-index-url https://download.pyto
 # sugarcane
 # タスク的にはp5のtrain.pyを使うべきですが、
 # train.pyだとエラーが出るので、train_aux.pyを使います
-python train_aux.py --workers 8 --batch-size 16 \
+python train_aux.py --workers 8 --batch-size 8 \
   --data ../manage-dataset/datasets/sugarcane/data.yaml \
   --cfg cfg/training/yolov7-d6.yaml \
-  --weights checkpoints/yolov7-d6.pt \
+  --weights weights/yolov7-d6.pt \
   --name yolov7-d6-sugarcane \
   --hyp data/hyp.scratch.sugarcane.yaml \
-  --epochs 300 \
+  --epochs 250 \
   --device 0
 
 # pineapple
-python train_aux.py --workers 8 --batch-size 16 \
+python train_aux.py --workers 8 --batch-size 8 \
   --data ../manage-dataset/pineapple/data.yaml \
   --cfg cfg/training/yolov7-d6.yaml \
-  --weights checkpoints/yolov7-d6.pt \
+  --weights weights/yolov7-d6.pt \
   --name yolov7-d6-pineapple \
   --hyp data/hyp.scratch.pineapple.yaml \
-  --epochs 300 \
+  --epochs 250 \
   --device 0
 ```
 
-### 3 推論を行う
+### [補足] yolov7-tinyを学習させる場合
 
-学習が正常に終了したら、以下のコマンドを実装し推論を行います。<br>
-結果は`./runs/detect/{自分が指定したフォルダー名}`の中に格納されています
+train_aux.pyを使うとエラーが出るので、train.pyを使います。
 
 ```sh
-python detect.py --weights runs/train/yolov7-d6-sugarcane/weights/best.pt \
-  --conf 0.25 --img-size 640 \
-  --source ../manage-dataset/datasets/sugarcane/test/images \
-  --name yolov7-d6-sugarcane-test
+python train.py --workers 8 --batch-size 8 \
+  --data ../manage-dataset/datasets/sugarcane/data.yaml \
+  --cfg cfg/training/yolov7-tiny.yaml \
+  --weights weights/yolov7-tiny.pt \
+  --name yolov7-tiny-sugarcane \
+  --hyp data/hyp.scratch.sugarcane.yaml \
+  --epochs 250 \
+  --device 0
+
+# pineapple
+python train.py --workers 8 --batch-size 8 \
+  --data ../manage-dataset/pineapple/data.yaml \
+  --cfg cfg/training/yolov7-tiny.yaml \
+  --weights weights/yolov7-tiny.pt \
+  --name yolov7-tiny-pineapple \
+  --hyp data/hyp.scratch.pineapple.yaml \
+  --epochs 250 \
+  --device 0
 ```
+
+
+## コントリビューター向けガイドライン
+
+コントリビューター向けのガイドラインについては、こちらの[CONTRIBUTING.md](https://github.com/TechC-SugarCane/.github/blob/main/CONTRIBUTING.md)を参照してください。

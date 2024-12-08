@@ -1,4 +1,4 @@
-# YOLOv9のファインチューニング
+# YOLOv7のファインチューニング
 
 公式のリポジトリからフォークして、独自のデータセットでファインチューニングを行うためのリポジトリです。
 
@@ -78,7 +78,7 @@ git clone git@github.com:TechC-SugarCane/manage-dataset.git
 ```sh
 # sugarcane
 # タスク的にはp5のtrain.pyを使うべきですが、
-# train.pyだとエラーが出るので、train_aux.pyを使います
+# train.pyだとエラーが出るので、tiny以外はtrain_aux.pyを使います
 python train_aux.py --workers 8 --batch-size 8 \
   --data ../manage-dataset/datasets/sugarcane/data.yaml \
   --cfg cfg/training/yolov7-d6.yaml \
@@ -104,6 +104,7 @@ python train_aux.py --workers 8 --batch-size 8 \
 train_aux.pyを使うとエラーが出るので、train.pyを使います。
 
 ```sh
+# sugarcane
 python train.py --workers 8 --batch-size 8 \
   --data ../manage-dataset/datasets/sugarcane/data.yaml \
   --cfg cfg/training/yolov7-tiny.yaml \
@@ -123,7 +124,6 @@ python train.py --workers 8 --batch-size 8 \
   --epochs 250 \
   --device 0
 ```
-
 
 ## コントリビューター向けガイドライン
 

@@ -85,7 +85,7 @@ python train_aux.py --workers 8 --batch-size 8 --data ../manage-dataset/datasets
 python train_aux.py --workers 8 --batch-size 8 --data ../manage-dataset/pineapple/data.yaml --cfg cfg/training/yolov7-d6.yaml --weights weights/yolov7-d6.pt --name yolov7-d6-pineapple --hyp data/hyp.scratch.pineapple.yaml --epochs 250 --device 0
 ```
 
-### [補足] yolov7-tinyを学習させる場合
+### [補足] yolov7, yolov7x, yolov7-tinyを学習させる場合
 
 train_aux.pyを使うとエラーが出るので、train.pyを使います。
 

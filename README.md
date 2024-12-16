@@ -85,16 +85,20 @@ python train_aux.py --workers 8 --batch-size 8 --data ../manage-dataset/datasets
 python train_aux.py --workers 8 --batch-size 8 --data ../manage-dataset/pineapple/data.yaml --cfg cfg/training/yolov7-d6.yaml --weights weights/yolov7-d6.pt --name yolov7-d6-pineapple --hyp data/hyp.scratch.pineapple.yaml --epochs 250 --device 0
 ```
 
+学習後の結果は`runs/train/<name(番号)>`に保存されます。
+
 ### [補足] yolov7, yolov7x, yolov7-tinyを学習させる場合
 
 train_aux.pyを使うとエラーが出るので、train.pyを使います。
 
+また、tinyを学習させる場合は `--hyp` に `data/hyp.scratch.tiny.yaml` を指定してください。
+
 ```sh
 # sugarcane
-python train.py --workers 8 --batch-size 8 --data ../manage-dataset/datasets/sugarcane/data.yaml --cfg cfg/training/yolov7-tiny.yaml --weights weights/yolov7-tiny.pt --name yolov7-tiny-sugarcane --hyp data/hyp.scratch.sugarcane.yaml --epochs 250 --device 0
+python train.py --workers 8 --batch-size 8 --data ../manage-dataset/datasets/sugarcane/data.yaml --cfg cfg/training/yolov7.yaml --weights weights/yolov7.pt --name yolov7-sugarcane --hyp data/hyp.scratch.sugarcane.yaml --epochs 250 --device 0
 
 # pineapple
-python train.py --workers 8 --batch-size 8 --data ../manage-dataset/pineapple/data.yaml --cfg cfg/training/yolov7-tiny.yaml --weights weights/yolov7-tiny.pt --name yolov7-tiny-pineapple --hyp data/hyp.scratch.pineapple.yaml --epochs 250 --device 0
+python train.py --workers 8 --batch-size 8 --data ../manage-dataset/datasets/pineapple/data.yaml --cfg cfg/training/yolov7.yaml --weights weights/yolov7.pt --name yolov7-pineapple --hyp data/hyp.scratch.pineapple.yaml --epochs 250 --device 0
 ```
 
 ## コントリビューター向けガイドライン

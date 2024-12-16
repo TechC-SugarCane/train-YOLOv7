@@ -79,50 +79,22 @@ git clone git@github.com:TechC-SugarCane/manage-dataset.git
 # sugarcane
 # タスク的にはp5のtrain.pyを使うべきですが、
 # train.pyだとエラーが出るので、tiny以外はtrain_aux.pyを使います
-python train_aux.py --workers 8 --batch-size 8 \
-  --data ../manage-dataset/datasets/sugarcane/data.yaml \
-  --cfg cfg/training/yolov7-d6.yaml \
-  --weights weights/yolov7-d6.pt \
-  --name yolov7-d6-sugarcane \
-  --hyp data/hyp.scratch.sugarcane.yaml \
-  --epochs 250 \
-  --device 0
+python train_aux.py --workers 8 --batch-size 8 --data ../manage-dataset/datasets/sugarcane/data.yaml --cfg cfg/training/yolov7-d6.yaml --weights weights/yolov7-d6.pt --name yolov7-d6-sugarcane --hyp data/hyp.scratch.sugarcane.yaml --epochs 250 --device 0
 
 # pineapple
-python train_aux.py --workers 8 --batch-size 8 \
-  --data ../manage-dataset/pineapple/data.yaml \
-  --cfg cfg/training/yolov7-d6.yaml \
-  --weights weights/yolov7-d6.pt \
-  --name yolov7-d6-pineapple \
-  --hyp data/hyp.scratch.pineapple.yaml \
-  --epochs 250 \
-  --device 0
+python train_aux.py --workers 8 --batch-size 8 --data ../manage-dataset/pineapple/data.yaml --cfg cfg/training/yolov7-d6.yaml --weights weights/yolov7-d6.pt --name yolov7-d6-pineapple --hyp data/hyp.scratch.pineapple.yaml --epochs 250 --device 0
 ```
 
-### [補足] yolov7-tinyを学習させる場合
+### [補足] yolov7, yolov7x, yolov7-tinyを学習させる場合
 
 train_aux.pyを使うとエラーが出るので、train.pyを使います。
 
 ```sh
 # sugarcane
-python train.py --workers 8 --batch-size 8 \
-  --data ../manage-dataset/datasets/sugarcane/data.yaml \
-  --cfg cfg/training/yolov7-tiny.yaml \
-  --weights weights/yolov7-tiny.pt \
-  --name yolov7-tiny-sugarcane \
-  --hyp data/hyp.scratch.sugarcane.yaml \
-  --epochs 250 \
-  --device 0
+python train.py --workers 8 --batch-size 8 --data ../manage-dataset/datasets/sugarcane/data.yaml --cfg cfg/training/yolov7-tiny.yaml --weights weights/yolov7-tiny.pt --name yolov7-tiny-sugarcane --hyp data/hyp.scratch.sugarcane.yaml --epochs 250 --device 0
 
 # pineapple
-python train.py --workers 8 --batch-size 8 \
-  --data ../manage-dataset/pineapple/data.yaml \
-  --cfg cfg/training/yolov7-tiny.yaml \
-  --weights weights/yolov7-tiny.pt \
-  --name yolov7-tiny-pineapple \
-  --hyp data/hyp.scratch.pineapple.yaml \
-  --epochs 250 \
-  --device 0
+python train.py --workers 8 --batch-size 8 --data ../manage-dataset/pineapple/data.yaml --cfg cfg/training/yolov7-tiny.yaml --weights weights/yolov7-tiny.pt --name yolov7-tiny-pineapple --hyp data/hyp.scratch.pineapple.yaml --epochs 250 --device 0
 ```
 
 ## コントリビューター向けガイドライン
